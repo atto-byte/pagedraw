@@ -124,7 +124,7 @@ devDefaultConfigs =
     arrowKeysSelectNeighbors: true
     show_slices: false
 
-    disableFigmaSketchImport: true
+    disableFigmaSketchImport: false
 
 try
     # add everything set by rails into config

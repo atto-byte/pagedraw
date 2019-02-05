@@ -9,7 +9,7 @@
     "url": "git://github.com/jaredp/pagedraw.git"
   },
   "engines": {
-    "node": "8.9.0"
+    "node": "8.12.0"
   },
   "devDependencies": {
     "@types/react": "16.4.1",
@@ -39,6 +39,7 @@
   "dependencies": {
     "@blueprintjs/core": "2.3.1",
     "@stackblitz/sdk": "1.0.0",
+    "@types/electron": "^1.6.10",
     "async": "2.5.0",
     "atob": "2.0.3",
     "autoprefixer": "7.1.6",
@@ -65,8 +66,10 @@
     "create-react-class": "15.6.3",
     "css-loader": "0.28.7",
     "csv-string": "3.1.0",
+    "decaffeinate": "^5.1.4",
     "dotenv": "4.0.0",
     "dotenv-expand": "4.0.1",
+    "electron": "^4.0.4",
     "es6-promise-pool": "2.5.0",
     "escape-html": "1.0.3",
     "eslint": "4.10.0",
@@ -106,11 +109,10 @@
     "number-generator": "2.1.1",
     "object-assign": "4.1.1",
     "path": "0.12.7",
-    "promise.prototype.finally": "3.1.0",
-    "prop-types": "15.6.2",
     "postcss-flexbugs-fixes": "3.2.0",
     "postcss-loader": "2.0.8",
     "promise": "8.0.1",
+    "promise.prototype.finally": "3.1.0",
     "prop-types": "15.6.2",
     "query-string": "5.1.0",
     "quill": "0.20.0",
@@ -166,29 +168,23 @@
   "scripts": {
     "build-electron-app": "bin/build-electron-app.sh",
     "run-electron": "cd desktop-app && yarn start",
-
     "devserver": "node react-scripts/start.js",
     "sketchserver-dev": "cd sketch-importer && nodemon --ignore tmp/ importer-server.coffee",
     "dev-cli": "cd cli/ && yarn compile && cd ../sample-app && ENVIRONMENT=development PAGEDRAW_DOCSERVER=https://pagedraw-1226.firebaseio.com PAGEDRAW_COMPILESERVER=http://localhost:5000 PAGEDRAW_METASERVER=http://localhost:4000 NETRC_ENTRY=pagedraw.localhost ../cli/artifacts/pagedraw.js",
     "devserver-from-dist": "cd dist && python ../bin/simple-cors-http-server.py 3000",
-
     "pagedraw-develop": "pagedraw develop -c config/webpack.config.pagedraw.js",
-
     "dev-html-importer": "cd html-importer; coffee -cmw selenium_importer/*.coffee chrome-plugin/*.coffee",
-
     "regenerate-blocks-index": "echo \"$(bin/gather-blocks-index.sh)\" > src/blocks/index.cjsx",
     "refresh-google-fonts-list": "bin/refresh-google-fonts-list.sh",
     "compile-namespaced-bootstrap": "lessc namespaced-bootstrap/bootstrap-namespaced.less > static/bootstrap-namespaced.css",
     "build-landing-page": "./bin/compile-landing-page.coffee > metaserver/app/views/main/landing.html.erb",
     "build-pricing-page": "./bin/compile-pricing-page.coffee > metaserver/app/views/main/pricing.html.erb",
-
     "normalize-check": "node deploy-checks/normalize-check.js",
     "compile-check": "DOCSERVER_HOST=https://pagedraw.firebaseio.com coffee src/migrations/noop-migration.coffee",
     "compile-check-all": "ALL_DOCS=true DOCSERVER_HOST=https://pagedraw.firebaseio.com coffee src/migrations/noop-migration.coffee",
     "deserialize-check": "coffee deploy-checks/deserialize-check.coffee",
     "deserialize-check-all": "ALL_DOCS=true coffee deploy-checks/deserialize-check.coffee",
     "lp-check": "cd e2e-tests && DOCS=important node layout-vs-preview.js",
-
     "js-tests": "mocha --timeout 150000 --require ./coffeescript-register-web --recursive \"test/**/*.{js,coffee,cjsx}\"",
     "compile-vs-preview-test": "cd e2e-tests && node compiled-vs-preview.js",
     "compile-vs-preview-important": "cd e2e-tests && DOCSERVER_HOST=https://pagedraw.firebaseio.com MAIN_ONLY=true node compiled-vs-preview.js",
@@ -198,14 +194,12 @@
     "constraints-test": "cd e2e-tests && node test-layout-constraints.js",
     "debug-constraints-test": "cd e2e-tests && DEBUG=1 node test-layout-constraints.js",
     "clean-test-artifacts": "rm -r e2e-tests/tmp/* e2e-tests/screenshots/* e2e-tests/diffs/*",
-
     "html-email-tests": "cd e2e-tests && node compiled-vs-preview-emails.js < ../test-data/e2e-tests/emails-without-text.json",
     "clean-ports-before-e2e-tests": "lsof -ti tcp:4473 | xargs kill -9",
     "docs-compile-test": "e2e-tests/compile-test.coffee",
     "editor-loads-safely-test": "IMPORTANT_TESTS_ONLY=1 coffee e2e-tests/editor-load-clean-test.coffee",
     "sketch-test": "cd sketch-tests && coffee uploads-succeed-test.coffee",
     "test": "yarn js-tests && yarn compile-vs-preview-test && yarn layout-vs-preview-test && yarn docs-compile-test && yarn editor-loads-safely-test && yarn sketch-test",
-
     "draw-dep-graph": "bin/draw-dep-graph.sh",
     "count-loc": "bin/count-loc.sh",
     "list-todays-commits": "git log --after=\"`date +%Y-%m-%d` 00:00\" --before=\"`date +%Y-%m-%d` 23:59\"",
